@@ -1,0 +1,34 @@
+{
+  "name": "@chrisburnell/check-invalid-datetimes",
+  "version": "0.0.1",
+  "description": "Check HTML and XML files for strings containing 'Invalid DateTime' from failed formatting.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:chrisburnell/check-invalid-datetimes.git"
+  },
+  "homepage": "https://chrisburnell.com/check-invalid-datetimes/",
+  "bugs": {
+    "url": "https://github.com/chrisburnell/check-invalid-datetimes/issues"
+  },
+  "author": "Chris Burnell <me@chrisburnell.com>",
+  "contributors": [
+    {
+      "name": "Chris Burnell",
+      "email": "me@chrisburnell.com",
+      "url": "https://chrisburnell.com",
+      "mastodon": "@chrisburnell@repc.co"
+    }
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "command-line-args": "^5.2.1",
+    "he": "^1.2.0"
+  },
+  "type": "module"
+}
