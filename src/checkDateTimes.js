@@ -2,7 +2,7 @@ import fs from "fs"
 import he from "he"
 import readline from "readline"
 
-export default async function checkDateTimes(files) {
+export async function checkDateTimes(files) {
 	const errors = []
 
 	for (const file of files) {
