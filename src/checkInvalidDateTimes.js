@@ -42,13 +42,13 @@ export class checkInvalidDateTimes {
 			directory,
 		)
 
-		console.log("Check Invalid DateTimes")
+		console.log(chalk.bold("Check Invalid DateTimes") + "\n")
 
 		const filesOutput =
 			files.length == 0
-				? "  🧐 No files to check. Did you select the correct folder?"
-				: `  📖 Found ${chalk.green.bold(files.length)} files (${fileTypes}).`
-		console.log(filesOutput)
+				? `  ⚠️ No files ${chalk.bold(`(${fileTypes})`)} were found inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`
+				: `  📖 Found ${chalk.bold(files.length)} files ${chalk.bold(`(${fileTypes})`)} inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`
+		console.log(filesOutput + "\n")
 
 		const errors = await checkDateTimes(files)
 
@@ -60,17 +60,19 @@ export class checkInvalidDateTimes {
 				return total + error.instances.length
 			}, 0)
 			output = [
-				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${instanceCount > 1 ? "s" : ""} inside ${chalk.bold(errors.length)} files:\n`,
+				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${instanceCount > 1 ? "s" : ""} inside ${chalk.bold(errors.length)} file${errors.length > 1 ? "s" : ""}:\n`,
 				...formatErrors(errors)
 					.split("\n")
 					.map((line) => `  ${line}`),
 			]
-		} else {
-			output = [`  ✅ ${chalk.green.bold(0)} Invalid DateTimes found.`]
+		} else if (files.length > 0) {
+			output = [`  ✅ ${chalk.green.bold("No Invalid DateTimes found!")}\n`]
 		}
+
 		output.push(
-			`  🕑 Checking DateTimes duration: ${performance[0]}s ${performance[1] / 1000000}ms`,
+			`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(performance[0] + "." + (performance[1] / 1000000).toString().split(".")[0])} seconds.`,
 		)
+
 		message = output.join("\n")
 		console.log(message)
 
