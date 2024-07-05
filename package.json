@@ -1,6 +1,6 @@
 {
   "name": "@chrisburnell/check-invalid-datetimes",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Check HTML and XML files for strings containing 'Invalid DateTime' from failed formatting.",
   "license": "MIT",
   "repository": {
@@ -24,6 +24,9 @@
     "access": "public"
   },
   "main": "index.js",
+  "bin": {
+    "check-invalid-datetimes": "src/cli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
