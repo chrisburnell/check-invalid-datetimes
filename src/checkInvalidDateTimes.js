@@ -29,15 +29,18 @@ export class checkInvalidDateTimes {
 	}
 
 	async run() {
-		const {
-			directory: userDirectory,
-			fileTypes: userFileTypes,
-		} = this.options
-		const directory = userDirectory ? path.resolve(userDirectory) : process.cwd()
+		const { directory: userDirectory, fileTypes: userFileTypes } =
+			this.options
+		const directory = userDirectory
+			? path.resolve(userDirectory)
+			: process.cwd()
 		const fileTypes = userFileTypes || "html,xml"
 		const performanceStart = process.hrtime()
 
-		const files = await listFiles(`**/*.${fileTypes.includes(",") ? `{${fileTypes}}` : fileTypes}`, directory)
+		const files = await listFiles(
+			`**/*.${fileTypes.includes(",") ? `{${fileTypes}}` : fileTypes}`,
+			directory,
+		)
 
 		console.log("Check Invalid DateTimes")
 
@@ -57,18 +60,18 @@ export class checkInvalidDateTimes {
 				return total + error.instances.length
 			}, 0)
 			output = [
-				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${instanceCount > 1 ? "s" : ""} while checking ${chalk.bold(files.length)} files:\n`,
+				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${instanceCount > 1 ? "s" : ""} inside ${chalk.bold(errors.length)} files:\n`,
 				...formatErrors(errors)
 					.split("\n")
-					.map(line => `  ${line}`)
+					.map((line) => `  ${line}`),
 			]
 		} else {
-			output = [
-				`  ✅ ${chalk.green.bold(0)} Invalid DateTimes found.`,
-			]
+			output = [`  ✅ ${chalk.green.bold(0)} Invalid DateTimes found.`]
 		}
-		output.push(`  🕑 Checking DateTimes duration: ${performance[0]}s ${performance[1] / 1000000}ms`)
-		message = output.join('\n')
+		output.push(
+			`  🕑 Checking DateTimes duration: ${performance[0]}s ${performance[1] / 1000000}ms`,
+		)
+		message = output.join("\n")
 		console.log(message)
 
 		return { errors, message }

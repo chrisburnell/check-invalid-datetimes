@@ -9,8 +9,10 @@ export function formatErrors(errors, relativeFrom = process.cwd()) {
 		const filePath = path.relative(relativeFrom, error.filePath)
 		output.push(
 			`  ${number}. Invalid Datetime${error.instances.length > 1 ? "s" : ""} found in ${chalk.red.bold(filePath)}`,
-			...error.instances
-				.map(instance => `    from ${chalk.cyanBright.bold(filePath + ":" + instance.lineNumber + ":" + instance.columnNumber)} via ${instance.string.replace("Invalid DateTime", chalk.red.bold("Invalid DateTime"))}`)
+			...error.instances.map(
+				(instance) =>
+					`    from ${chalk.cyanBright.bold(filePath + ":" + instance.lineNumber + ":" + instance.columnNumber)} via ${instance.string.replace("Invalid DateTime", chalk.red.bold("Invalid DateTime"))}`,
+			),
 		)
 		output.push("")
 	}

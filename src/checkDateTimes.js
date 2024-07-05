@@ -9,7 +9,7 @@ export async function checkDateTimes(files) {
 		const rl = readline.createInterface({
 			input: fs.createReadStream(file),
 			output: process.stdout,
-			terminal: false
+			terminal: false,
 		})
 
 		const instances = []
