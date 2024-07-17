@@ -4,6 +4,9 @@ Check HTML and XML files for strings containing "Invalid DateTime" from failed/m
 
 Adapted from the [check-html-links package](https://www.npmjs.com/package/check-html-links).
 
+> [!WARNING]
+> This package is still a work in progress.
+
 ## Installation
 
 ```
