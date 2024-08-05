@@ -1,6 +1,6 @@
 {
   "name": "@chrisburnell/check-invalid-datetimes",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Check HTML and XML files for strings containing \"Invalid DateTime\" from failed/malformed DateTime formatting.",
   "license": "MIT",
   "repository": {
@@ -11,17 +11,31 @@
   "bugs": {
     "url": "https://github.com/chrisburnell/check-invalid-datetimes/issues"
   },
-  "author": "Chris Burnell <me@chrisburnell.com>",
+  "author": {
+    "name": "Chris Burnell",
+    "email": "me@chrisburnell.com",
+    "url": "https://chrisburnell.com/"
+  },
   "contributors": [
     {
       "name": "Chris Burnell",
       "email": "me@chrisburnell.com",
-      "url": "https://chrisburnell.com",
-      "mastodon": "@chrisburnell@repc.co"
+      "url": "https://chrisburnell.com"
+    }
+  ],
+  "funding": [
+    {
+      "type": "buymeacoffee",
+      "url": "https://buymeacoffee.com/chrisburnell"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/chrisburnell"
     }
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "main": "index.js",
   "bin": {
