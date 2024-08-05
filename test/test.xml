@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet href="/feed.xsl" type="text/xsl" ?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title>Example XML</title>
+	<id>https://example.com/</id>
+	<entry>
+		<id>https://example.com/example/</id>
+		<link href="https://example.com/example/" />
+		<title>Example Post</title>
+		<category term="note" scheme="https://chrisburnell.com/note/" label="Note" />
+		<summary>Invalid DateTime</summary>
+	</entry>
+</feed>

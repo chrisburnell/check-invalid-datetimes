@@ -4,3 +4,5 @@
 .editorconfig
 .eslintrc.json
 .prettierrc
+test
+test.js
