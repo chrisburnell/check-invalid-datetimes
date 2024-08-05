@@ -54,3 +54,11 @@ test("Get location of errors", async () => {
 	assert.strictEqual(errorInstances[0].columnNumber, 12)
 	assert.strictEqual(errorInstances[0].string, "<summary>Invalid DateTime</summary>")
 })
+
+test("Check message is not empty", async () => {
+	const cli = new checkInvalidDateTimes()
+	cli.setOptions(Object.assign({}, options, { fileTypes: "xml" }))
+	const result = await cli.run()
+
+	assert.notStrictEqual(result.message, "")
+})

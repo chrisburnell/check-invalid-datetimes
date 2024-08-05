@@ -38,6 +38,7 @@ export class checkInvalidDateTimes {
 			: process.cwd()
 		const fileTypes = userFileTypes || "html,xml"
 		const performanceStart = process.hrtime()
+		const output = []
 		let message = ""
 
 		const files = await listFiles(
@@ -47,36 +48,38 @@ export class checkInvalidDateTimes {
 
 		const errors = await checkDateTimes(files)
 
-		if (!quiet) {
-			console.log(chalk.bold("Check Invalid DateTimes") + "\n")
+		output.push(chalk.bold("Check Invalid DateTimes") + "\n")
 
-			const filesOutput =
-				files.length == 0
-					? `  ⚠️ No files ${chalk.bold(`(${fileTypes})`)} were found inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`
-					: `  📖 Found ${chalk.bold(files.length)} files ${chalk.bold(`(${fileTypes})`)} inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`
-			console.log(filesOutput + "\n")
+		const filesOutput =
+			files.length == 0
+				? `  ⚠️ No files ${chalk.bold(`(${fileTypes})`)} were found inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`
+				: `  📖 Found ${chalk.bold(files.length)} files ${chalk.bold(`(${fileTypes})`)} inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`
+		output.push(filesOutput + "\n")
 
-			const performance = process.hrtime(performanceStart)
-			let output = []
-			if (errors.length > 0) {
-				const instanceCount = errors.reduce((total, error) => {
-					return total + error.instances.length
-				}, 0)
-				output = [
-					`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${instanceCount > 1 ? "s" : ""} inside ${chalk.bold(errors.length)} file${errors.length > 1 ? "s" : ""}:\n`,
-					...formatErrors(errors)
-						.split("\n")
-						.map((line) => `  ${line}`),
-				]
-			} else if (files.length > 0) {
-				output = [`  ✅ ${chalk.green.bold("No Invalid DateTimes found!")}\n`]
-			}
-
+		const performance = process.hrtime(performanceStart)
+		if (errors.length > 0) {
+			const instanceCount = errors.reduce((total, error) => {
+				return total + error.instances.length
+			}, 0)
 			output.push(
-				`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(performance[0] + "." + (performance[1] / 1000000).toString().split(".")[0])} seconds.`,
+				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${instanceCount > 1 ? "s" : ""} inside ${chalk.bold(errors.length)} file${errors.length > 1 ? "s" : ""}:\n`
 			)
+			output.push(
+				...formatErrors(errors)
+					.split("\n")
+					.map((line) => `  ${line}`),
+			)
+		} else if (files.length > 0) {
+			output.push(`  ✅ ${chalk.green.bold("No Invalid DateTimes found!")}\n`)
+		}
 
-			message = output.join("\n")
+		output.push(
+			`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(performance[0] + "." + (performance[1] / 1000000).toString().split(".")[0])} seconds.`,
+		)
+
+		message = output.join("\n")
+
+		if (!quiet) {
 			console.log(message)
 		}
 
