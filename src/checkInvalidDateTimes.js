@@ -12,6 +12,7 @@ export class checkInvalidDateTimes {
 			{ name: "directory", type: String, defaultOption: true },
 			{ name: "file-types", type: String },
 			{ name: "quiet", alias: "q", type: Boolean },
+			{ name: "continue-on-error", type: Boolean },
 		];
 		const options = commandLineArgs(mainDefinitions, {
 			argv,
@@ -20,6 +21,7 @@ export class checkInvalidDateTimes {
 			directory: options["directory"],
 			fileTypes: options["file-types"],
 			quiet: options["quiet"],
+			continueOnError: options["continue-on-error"],
 		};
 	}
 
@@ -95,26 +97,35 @@ export class checkInvalidDateTimes {
 				output,
 				quiet,
 			);
+			output = this.processMessage(
+				`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(
+					(performance[0] + performance[1] / 1e9).toFixed(3),
+				)} seconds.`,
+				output,
+				quiet,
+			);
+
+			if (this.options.continueOnError === false) {
+				if (quiet) {
+					console.log(output.join("\n"));
+				}
+				process.exit(1);
+			}
 		} else if (files.length > 0) {
 			output = this.processMessage(
 				`  ✅ ${chalk.green.bold("No Invalid DateTimes found!")}\n`,
 				output,
 				quiet,
 			);
+			output = this.processMessage(
+				`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(
+					(performance[0] + performance[1] / 1e9).toFixed(3),
+				)} seconds.\n`,
+				output,
+				quiet,
+			);
 		}
 
-		output = this.processMessage(
-			`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(
-				performance[0] +
-					"." +
-					(performance[1] / 1000000).toString().split(".")[0],
-			)} seconds.`,
-			output,
-			quiet,
-		);
-
-		const message = output.join("\n");
-
-		return { errors, message };
+		return { errors, message: output.join("\n") };
 	}
 }
