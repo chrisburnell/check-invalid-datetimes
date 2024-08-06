@@ -30,6 +30,13 @@ export class checkInvalidDateTimes {
 		};
 	}
 
+	processMessage(message, output, quiet) {
+		if (!quiet) {
+			console.log(message);
+		}
+		return [...output, message];
+	}
+
 	async run() {
 		const {
 			directory: userDirectory,
@@ -41,52 +48,72 @@ export class checkInvalidDateTimes {
 			: process.cwd();
 		const fileTypes = userFileTypes || "html,xml";
 		const performanceStart = process.hrtime();
-		const output = [];
-		let message = "";
+		let output = [];
+
+		output = this.processMessage(
+			chalk.bold("Check Invalid DateTimes") + "\n",
+			output,
+			quiet,
+		);
 
 		const files = await listFiles(
 			`**/*.${fileTypes.includes(",") ? `{${fileTypes}}` : fileTypes}`,
 			directory,
 		);
 
+		output = this.processMessage(
+			`  ${files.length === 0 ? "⚠️" : "📖"} Found ${chalk.bold(
+				files.length,
+			)} files ${chalk.bold(`(${fileTypes})`)} inside ${chalk.bold(
+				userDirectory || path.basename(path.resolve()),
+			)}.\n`,
+			output,
+			quiet,
+		);
+
 		const errors = await checkDateTimes(files);
-
-		output.push(chalk.bold("Check Invalid DateTimes") + "\n");
-
-		const filesOutput =
-			files.length == 0
-				? `  ⚠️ No files ${chalk.bold(`(${fileTypes})`)} were found inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`
-				: `  📖 Found ${chalk.bold(files.length)} files ${chalk.bold(`(${fileTypes})`)} inside ${chalk.bold(userDirectory || path.basename(path.resolve()))}.`;
-		output.push(filesOutput + "\n");
 
 		const performance = process.hrtime(performanceStart);
 		if (errors.length > 0) {
 			const instanceCount = errors.reduce((total, error) => {
 				return total + error.instances.length;
 			}, 0);
-			output.push(
-				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${instanceCount > 1 ? "s" : ""} inside ${chalk.bold(errors.length)} file${errors.length > 1 ? "s" : ""}:\n`,
+			output = this.processMessage(
+				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${
+					instanceCount > 1 ? "s" : ""
+				} inside ${chalk.bold(errors.length)} file${
+					errors.length > 1 ? "s" : ""
+				}:\n`,
+				output,
+				quiet,
 			);
-			output.push(
-				...formatErrors(errors)
+			output = this.processMessage(
+				formatErrors(errors)
 					.split("\n")
-					.map((line) => `  ${line}`),
+					.map((line) => `  ${line}`)
+					.join("\n"),
+				output,
+				quiet,
 			);
 		} else if (files.length > 0) {
-			output.push(
+			output = this.processMessage(
 				`  ✅ ${chalk.green.bold("No Invalid DateTimes found!")}\n`,
+				output,
+				quiet,
 			);
 		}
 
-		output.push(
-			`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(performance[0] + "." + (performance[1] / 1000000).toString().split(".")[0])} seconds.`,
+		output = this.processMessage(
+			`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(
+				performance[0] +
+					"." +
+					(performance[1] / 1000000).toString().split(".")[0],
+			)} seconds.`,
+			output,
+			quiet,
 		);
 
-		message = output.join("\n");
-
-		if (!quiet) {
-			console.log(message);
-		}
+		const message = output.join("\n");
 
 		return { errors, message };
 	}
