@@ -28,10 +28,11 @@ export function formatErrors(errors, relativeFrom = process.cwd()) {
 							instance.lineNumber +
 							":" +
 							instance.columnNumber,
-					)} via ${instance.string.replace(
-						/Invalid DateTime/g,
-						chalk.red.bold("Invalid DateTime"),
-					)}`,
+					)} via ${(
+						instance.string.slice(0, instance.columnNumber - 1) +
+						chalk.red.bold("Invalid DateTime") +
+						instance.string.slice(instance.columnNumber + 15)
+					).trim()}`,
 			),
 		);
 		output.push("");

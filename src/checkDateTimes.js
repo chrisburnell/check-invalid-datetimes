@@ -12,7 +12,7 @@ export function hasInvalidDateTime(file, line) {
 				line,
 			)
 		);
-	} else if (/\.xml$/i.test(file)) {
+	} else if (/\.(rss|xml)$/i.test(file)) {
 		return /<(pubDate|lastBuildDate|updated|published)\b[^>]*>(?:(?!<\/\1>).)*Invalid DateTime(?:(?!<\/\1>).)*<\/\1>/.test(
 			line,
 		);
@@ -53,7 +53,7 @@ export async function checkDateTimes(files) {
 					instances.push({
 						lineNumber: lineNumber,
 						columnNumber: columnNumber,
-						string: he.decode(line).trim(),
+						string: he.decode(line),
 					});
 				});
 			}
