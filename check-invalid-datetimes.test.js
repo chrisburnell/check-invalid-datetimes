@@ -44,21 +44,21 @@ describe("check-invalid-datetimes", () => {
 		assert.strictEqual(errorInstances[0].lineNumber, 6);
 		assert.strictEqual(errorInstances[0].columnNumber, 11);
 		assert.strictEqual(
-			errorInstances[0].string,
+			errorInstances[0].string.trim(),
 			"<updated>Invalid DateTime</updated>",
 		);
 
 		assert.strictEqual(errorInstances[1].lineNumber, 12);
 		assert.strictEqual(errorInstances[1].columnNumber, 12);
 		assert.strictEqual(
-			errorInstances[1].string,
+			errorInstances[1].string.trim(),
 			"<updated>Invalid DateTime</updated>",
 		);
 
 		assert.strictEqual(errorInstances[2].lineNumber, 13);
 		assert.strictEqual(errorInstances[2].columnNumber, 14);
 		assert.strictEqual(
-			errorInstances[2].string,
+			errorInstances[2].string.trim(),
 			"<published>Invalid DateTime</published>",
 		);
 	});
