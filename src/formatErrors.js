@@ -29,7 +29,7 @@ export function formatErrors(errors, relativeFrom = process.cwd()) {
 							":" +
 							instance.columnNumber,
 					)} via ${instance.string.replace(
-						"Invalid DateTime",
+						/Invalid DateTime/g,
 						chalk.red.bold("Invalid DateTime"),
 					)}`,
 			),

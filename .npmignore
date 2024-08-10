@@ -6,4 +6,4 @@
 .prettierrc
 .prettierignore
 test
-test.js
+check-invalid-datetimes.test.js
