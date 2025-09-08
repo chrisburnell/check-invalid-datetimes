@@ -132,10 +132,10 @@ export class checkInvalidDateTimes {
 			output = this.processMessage(
 				`  🕑 Checked ${styleText(
 					"bold",
-					files.length,
+					String(files.length),
 				)} files in ${styleText(
 					"bold",
-					(performance[0] + performance[1] / 1e9).toFixed(3),
+					String((performance[0] + performance[1] / 1e9).toFixed(3)),
 				)} seconds.\n`,
 				output,
 				quiet,
