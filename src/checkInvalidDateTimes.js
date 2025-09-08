@@ -1,5 +1,5 @@
-import chalk from "chalk";
 import commandLineArgs from "command-line-args";
+import { styleText } from "node:util";
 import path from "path";
 
 import { checkDateTimes } from "./checkDateTimes.js";
@@ -53,7 +53,7 @@ export class checkInvalidDateTimes {
 		let output = [];
 
 		output = this.processMessage(
-			chalk.bold("Check Invalid DateTimes") + "\n",
+			styleText("bold", "Check Invalid DateTimes") + "\n",
 			output,
 			quiet,
 		);
@@ -64,9 +64,11 @@ export class checkInvalidDateTimes {
 		);
 
 		output = this.processMessage(
-			`  ${files.length === 0 ? "⚠️" : "📖"} Found ${chalk.bold(
-				files.length,
-			)} files ${chalk.bold(`(${fileTypes})`)} inside ${chalk.bold(
+			`  ${files.length === 0 ? "⚠️" : "📖"} Found ${styleText(
+				"bold",
+				String(files.length),
+			)} files ${styleText("bold", `(${fileTypes})`)} inside ${styleText(
+				"bold",
 				userDirectory || path.basename(path.resolve()),
 			)}.\n`,
 			output,
@@ -81,9 +83,12 @@ export class checkInvalidDateTimes {
 				return total + error.instances.length;
 			}, 0);
 			output = this.processMessage(
-				`  ❌ Found ${chalk.bold(instanceCount)} Invalid DateTime${
+				`  ❌ Found ${styleText(
+					"bold",
+					String(instanceCount),
+				)} Invalid DateTime${
 					instanceCount > 1 ? "s" : ""
-				} inside ${chalk.bold(errors.length)} file${
+				} inside ${styleText("bold", String(errors.length))} file${
 					errors.length > 1 ? "s" : ""
 				}:\n`,
 				output,
@@ -98,8 +103,12 @@ export class checkInvalidDateTimes {
 				quiet,
 			);
 			output = this.processMessage(
-				`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(
-					(performance[0] + performance[1] / 1e9).toFixed(3),
+				`  🕑 Checked ${styleText(
+					"bold",
+					String(files.length),
+				)} files in ${styleText(
+					"bold",
+					String((performance[0] + performance[1] / 1e9).toFixed(3)),
 				)} seconds.`,
 				output,
 				quiet,
@@ -113,12 +122,19 @@ export class checkInvalidDateTimes {
 			}
 		} else if (files.length > 0) {
 			output = this.processMessage(
-				`  ✅ ${chalk.green.bold("No Invalid DateTimes found!")}\n`,
+				`  ✅ ${styleText(
+					["bold", "green"],
+					"No Invalid DateTimes found!",
+				)}\n`,
 				output,
 				quiet,
 			);
 			output = this.processMessage(
-				`  🕑 Checked ${chalk.bold(files.length)} files in ${chalk.bold(
+				`  🕑 Checked ${styleText(
+					"bold",
+					files.length,
+				)} files in ${styleText(
+					"bold",
 					(performance[0] + performance[1] / 1e9).toFixed(3),
 				)} seconds.\n`,
 				output,

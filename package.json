@@ -1,6 +1,6 @@
 {
   "name": "@chrisburnell/check-invalid-datetimes",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Check HTML and XML files for strings containing \"Invalid DateTime\" from failed/malformed DateTime formatting.",
   "license": "MIT",
   "repository": {
@@ -49,7 +49,6 @@
     "datetime"
   ],
   "dependencies": {
-    "chalk": "^5.3.0",
     "command-line-args": "^6.0.0",
     "fast-glob": "^3.3.2",
     "he": "^1.2.0"

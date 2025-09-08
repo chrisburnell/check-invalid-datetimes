@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import { styleText } from "node:util";
 import path from "path";
 
 function padWithSpaces(total, number) {
@@ -13,16 +13,17 @@ export function formatErrors(errors, relativeFrom = process.cwd()) {
 		number += 1;
 		const filePath = path.relative(relativeFrom, error.filePath);
 		output.push(
-			`${padWithSpaces(
-				errors.length,
-				number,
-			)}  ${number}. ${chalk.red.bold(filePath)}`,
+			`${padWithSpaces(errors.length, number)}  ${number}. ${styleText(
+				["bold", "red"],
+				filePath,
+			)}`,
 			...error.instances.map(
 				(instance) =>
 					`${padWithSpaces(
 						errors.length,
 						number,
-					)}     from ${chalk.cyanBright.bold(
+					)}     from ${styleText(
+						["bold", "cyanBright"],
 						filePath +
 							":" +
 							instance.lineNumber +
@@ -30,7 +31,7 @@ export function formatErrors(errors, relativeFrom = process.cwd()) {
 							instance.columnNumber,
 					)} via ${(
 						instance.string.slice(0, instance.columnNumber - 1) +
-						chalk.red.bold("Invalid DateTime") +
+						styleText(["bold", "red"], "Invalid DateTime") +
 						instance.string.slice(instance.columnNumber + 15)
 					).trim()}`,
 			),
